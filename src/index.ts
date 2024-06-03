@@ -72,6 +72,10 @@ export function validateId(identityNumber: string, countryCode: CountryCode | 'a
         result.countryCodeActual = validation.countryCodeActual;
     }
 
+    if (result.countryCodeActual.length && result.typeLabel === 'Other') {
+        result.typeLabel = countryCodeToTypeLabel[result.countryCodeActual[0]];
+    }
+
 
     return result;
 

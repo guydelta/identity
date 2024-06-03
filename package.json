@@ -1,6 +1,6 @@
 {
   "name": "identity",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Validates and parses national identifiers and passport numbers",
   "source": "src/main.ts",
   "main": "dist/main.js",

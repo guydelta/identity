@@ -91,13 +91,13 @@ function parseZA(identityNumber: string): Partial<ParsedMetadata> | undefined {
         if (!groups) {
             return;
         }
-        const dateOfBirth = parseShortDate(groups[0] + groups[1] + groups[2]);
+        const dateOfBirth = parseShortDate(groups[1] + groups[2] + groups[3]);
         const century = dateOfBirth.startsWith('19') ? 1900 : 2000;
         const age = getAge(dateOfBirth);
-        const sequence = parseInt(groups[3], 10);
+        const sequence = parseInt(groups[4], 10);
         const gender: Gender = sequence < 5000 ? 'Female' : 'Male';
-        const citizenship: Citizenship = parseInt(groups[4], 10) === 0 ? 'Citizen' : 'Permanent Resident';
-        const parity = parseInt(groups[6], 10);
+        const citizenship: Citizenship = parseInt(groups[5], 10) === 0 ? 'Citizen' : 'Permanent Resident';
+        const parity = parseInt(groups[7], 10);
 
         const data: Partial<ParsedMetadata> = {
             dateOfBirth,
@@ -122,7 +122,7 @@ function parseUK(identityNumber: string): Partial<ParsedMetadata> | undefined {
         if (!groups) {
             return;
         }
-        const sequence = parseInt(`${groups[1]}${groups[2]}${groups[3]}`, 10);
+        const sequence = parseInt(`${groups[2]}${groups[3]}${groups[4]}`, 10);
         const data: Partial<ParsedMetadata> = {
             sequence
         }
@@ -139,7 +139,7 @@ function parseUS(identityNumber: string): Partial<ParsedMetadata> | undefined {
         if (!groups) {
             return;
         }
-        const sequence = parseInt(`${groups[2]}`, 10);
+        const sequence = parseInt(`${groups[3]}`, 10);
         const data: Partial<ParsedMetadata> = {
             sequence
         }
