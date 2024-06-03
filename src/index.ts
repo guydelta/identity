@@ -53,7 +53,7 @@ export function validateId(identityNumber: string, countryCode: CountryCode | 'a
         identityNumber: identityNumber.split(' ').join(''),
         status: 'Unknown',
         type,
-        typeLabel: countryCode === 'auto' ? 'Other' : type === 'Passport' ? 'Passport' : countryCodeToTypeLabel[countryCode],
+        typeLabel: type === 'Passport' ? 'Passport' : (countryCode === 'auto' ? 'Other' : countryCodeToTypeLabel[countryCode]),
         countryCodeActual: countryCode === 'auto' ? [] : [countryCode],
     } as ValidationResult;
 
