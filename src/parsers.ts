@@ -42,6 +42,11 @@ export interface ParsedMetadata {
     sequence: number;
 }
 
+/**
+ * 
+ * @param dateString The date part of the identity number, in this case in the format YYMMDD
+ * @returns age in years
+ */
 function getAge(dateString: string): number {
     const birthdate = new Date(dateString);
     const today = new Date();
@@ -113,6 +118,10 @@ function parseZA(identityNumber: string): Partial<ParsedMetadata> | undefined {
     }
 }
 
+/**
+ * 
+ * @param identityNumber The UK identity number that should be parsed
+ */
 function parseUK(identityNumber: string): Partial<ParsedMetadata> | undefined {
     for (const pattern of countryCodeToIdentityNumberPattern['UK']) {
         if (!pattern.test(identityNumber)) {
@@ -130,8 +139,12 @@ function parseUK(identityNumber: string): Partial<ParsedMetadata> | undefined {
     }
 }
 
+/**
+ * 
+ * @param identityNumber A US SSN
+ */
 function parseUS(identityNumber: string): Partial<ParsedMetadata> | undefined {
-    for (const pattern of countryCodeToIdentityNumberPattern['UK']) {
+    for (const pattern of countryCodeToIdentityNumberPattern['US']) {
         if (!pattern.test(identityNumber)) {
             continue;
         }
@@ -149,7 +162,7 @@ function parseUS(identityNumber: string): Partial<ParsedMetadata> | undefined {
 
 
 /**
- * 
+ * @description Parses
  * @param identityNumber The identity number that should be parsed
  * @param countryCodes An array of possible country codes against which the number should be parsed.
  */
@@ -163,7 +176,6 @@ export function parseIdentityNumberForCountry(identityNumber: string, countryCod
                 return parseUK(identityNumber);
             case 'US':
                 return parseUS(identityNumber);
-                break;
             default:
                 break;
         }
