@@ -68,8 +68,9 @@ export function validateIdentityNumberForCountry(identityNumber: string, country
 
     // If there is additional work to be done, e.g. parity checks, do it here
     switch (countryCode) {
+        case 'CA':
         case 'ZA':
-            return isValidChecksumZA(identityNumber) ? 'Valid' : 'Invalid';
+            return luhnCheck(identityNumber) ? 'Valid' : 'Invalid';
         case 'UK':
         case 'US':
             return 'Valid';
@@ -97,7 +98,7 @@ export function validatePassportNumberForCountry(passportNumber: string, country
  * @description validates the identity number using the Luhn Algorithm
  * @param identityNumber 
  */
-function isValidChecksumZA(identityNumber: string): boolean {
+function luhnCheck(identityNumber: string): boolean {
     let sum = 0;
     let alternate = false;
 

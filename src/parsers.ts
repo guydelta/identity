@@ -1,6 +1,6 @@
 import { CountryCode, countryCodeToIdentityNumberPattern } from "./dictionaries";
 
-type Citizenship = 'Citizen' | 'Permanent Resident';
+type Citizenship = 'Citizen' | 'Permanent Resident' | 'Temporary Resident' | 'Other';
 type Gender = 'Male' | 'Female' | 'Unknown';
 
 export interface ParsedMetadata {
@@ -81,6 +81,63 @@ function parseShortDate(shortDate: string): string {
 
     // Format the full year, month, and day into the format YYYY-MM-DD
     return `${fullYear.toString().padStart(4, '0')}-${mm}-${dd}`;
+}
+
+/**
+ * 
+ * @param identityNumber A Canadian Social Insurance Number
+ */
+function parseCA(identityNumber: string): Partial<ParsedMetadata> | undefined {
+    for (const pattern of countryCodeToIdentityNumberPattern['CA']) {
+        if (!pattern.test(identityNumber)) {
+            continue;
+        }
+        const groups = identityNumber.match(pattern);
+        if (!groups) {
+            return;
+        }
+
+        const geographicDigit = parseInt(identityNumber[0]);
+        let geography = '';
+        let citizenship: Citizenship = 'Citizen';
+        switch (geographicDigit) {
+            case 1:
+                geography = 'NS, NB, PE, NL';
+                break;
+            case 2:
+            case 3:
+                geography = 'QC';
+                break;
+            case 4:
+            case 5:
+                geography = 'ON';
+                break;
+            case 6:
+                geography = 'NW ON, MB, SK, AB, NT, NU';
+                break;
+            case 7: 
+                geography = 'BC, YT';
+                break;
+            case 8:
+                geography = 'BN';
+                citizenship = 'Other';
+                break;
+            case 9:
+                geography = 'Temporary Resident';
+                citizenship = 'Temporary Resident';
+                break;
+            default:
+                geography = 'Tax Number';
+                citizenship = 'Other';
+                break;
+        }
+
+        const data: Partial<ParsedMetadata> = {
+            area: geography,
+            citizenship
+        }
+        return data;
+    }
 }
 
 /**
@@ -170,6 +227,8 @@ export function parseIdentityNumberForCountry(identityNumber: string, countryCod
     if (!identityNumber || !countryCodes.length) return;
     for (const countryCode of countryCodes) {
         switch (countryCode) {
+            case 'CA':
+                return parseCA(identityNumber);
             case 'ZA':
                 return parseZA(identityNumber);
             case 'UK':
