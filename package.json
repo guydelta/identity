@@ -1,6 +1,6 @@
 {
   "name": "identity",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Validates and parses national identifiers and passport numbers",
   "source": "src/main.ts",
   "main": "dist/main.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["National Identity", "Parse", "Validate", "Passport", "Social Security Number", "Identity Number"],
+  "keywords": ["National Identity", "Parse", "Validate", "Passport", "Social Security Number", "Identity Number", "Social Identity Number"],
   "author": "Christiaan Nel",
   "license": "MIT",
   "repository": {
