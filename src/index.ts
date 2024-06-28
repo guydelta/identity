@@ -47,6 +47,13 @@ export function parseId(identityNumber: string, countryCode: CountryCode | 'auto
     return results;
 }
 
+/**
+ * 
+ * @param identityNumber The identity number that should be validated
+ * @param countryCode If auto, then the validator will attempt to find all the countries where the identity number match, and validate against each of them. Otherwise, it will attempt to match against the specific country's validator
+ * @param type "National Identity" or "Passport", where "National Identity" is the default value, this indicates the type of number provided and the dictionary it should validate against
+ * @returns 
+ */
 export function validateId(identityNumber: string, countryCode: CountryCode | 'auto' = 'auto', type: IdentifierType = 'National Identity'): ValidationResult {
     const result = {
         countryCodeExpected: countryCode,
